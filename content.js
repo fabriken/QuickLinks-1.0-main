@@ -99,6 +99,7 @@ $(document).ready(function(){
 //   function test:
   function fetchAction(action) {
     console.log('Fetching: '+action);
+    console.log('hello');
     return action;
   }
   });
