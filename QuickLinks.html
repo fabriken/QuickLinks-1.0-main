@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" href="..sidebar-style.css" />
+    <meta charset="utf-8">
+    <style>
+    input[id=search] {
+      width: 100%;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      background-color: white;
+      background-image: url('icons/Search.svg');
+      background-position: 14px 14px;
+      background-repeat: no-repeat;
+      padding: 12px 20px 12px 40px;
+    }
+    input[id=pickActive] {
+      background-color: #01A9DB;
+      color: white;
+
+      padding: 8px 16px;
+    }
+    input[id=reason] {
+      background-color: white;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      background-position: 14px 14px;
+      background-repeat: no-repeat;
+      padding: 8px 16px;
+    }
+    input[id=activate] {
+      background-color: #4CAF50;
+      color: white;
+
+      padding: 8px 16px;
+    }
+    input[id=suspend] {
+      background-color: orange;
+      color: white;
+
+      padding: 8px 16px;
+    }
+    input[id=close] {
+      background-color: red;
+      color: white;
+
+      padding: 8px 16px;
+    }
+    input[id=pickGroup] {
+      background-color: #2E64FE;
+      color: white;
+
+
+      padding: 8px 16px;
+    }
+    input[id=assign] {
+      background-color: #956B48;
+      color: white;
+      padding: 8px 16px;
+    }
+
+p {
+ text-align: center;
+ font-size: 16px;
+
+}
+    </style>
+  </head>
+
+<body>
+
+<input id="search" type="text" class="style" placeholder="Paste account.." ></input>
+
+<p id="output"></p>
+<p id="selected"></p>
+
+<input type="button" id="pickActive" value="Pick Active">
+<input id="reason" type="text" placeholder="Reason.." ></input>
+
+<input type="button" id="activate" class="status" value="Activate After Suspension">
+<input type="button" id="suspend" class="status" value="Suspend">
+<input type="button" id="close" class="status" value="Close">
+
+<p id="pickedGR"></p>
+<input type="button" id="pickGroup" value="Pick Group">
+<input type="button" id="assign" value="Assign Group">
+<p id="assignedGR"></p>
+
+<p id="linkablesAction"></p>
+<script type="text/javascript" src="QuickLinks.js"></script>
+
+</body>
+
+</html>

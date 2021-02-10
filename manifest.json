@@ -1,0 +1,35 @@
+{
+
+  "description": "Link accounts",
+  "manifest_version": 2,
+  "name": "QuickLinks",
+  "version": "1.6",
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "58.0a1"
+    }
+  },
+  "sidebar_action": {
+    "default_title": "QuickLink",
+    "default_panel": "QuickLinks.html",
+    "default_icon": "icons/Link.svg",
+    "browser_style": true,
+    "open_at_install":true
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.its.temple.edu/*"],
+      "js": ["jquery-3.5.1.js", "content.js"]
+    }
+  ],
+  "permissions": [
+    "tabs"
+  ],
+
+  "icons": {
+    "16": "icons/Link.svg",
+    "32": "icons/Link.svg",
+    "48": "icons/Link.svg"
+  }
+
+}
