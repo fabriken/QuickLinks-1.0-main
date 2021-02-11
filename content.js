@@ -97,12 +97,14 @@ $(document).ready(function(){
   });
 
 //   function test:
-  function fetchAction(action) {
-    console.log('Fetching: '+action);
-    console.log('hello');
-    return action;
-  }
-  });
+async function fetchAction(link) {
+  const response = await fetch(link);
+  // waits until the request completes...
+  // console.log(response);
+  console.log('fetch completed');
+  // location.reload();
+}
+});
 
 
 //   async function fetchAction(action) {
