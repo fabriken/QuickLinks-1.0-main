@@ -4,14 +4,16 @@ browser.runtime.onMessage.addListener(function(incoming, sender) {
   let fromWho = sender.tab.id;
   let message = incoming;
   let potential = message.includes('pot');
+  // let normal = message.includes('normal');
   const splitArr = message.split(',');
-  let group = splitArr[4];
+  let group = splitArr[1];
   let acc = splitArr[0];
 
   sessionStorage.setItem(fromWho, acc);
   sessionStorage.setItem('group-'+fromWho, group);
 
   if (potential) {
+    // let acc = splitArr[0];
     let stor = sessionStorage.getItem('pot'+fromWho);
 
     if (acc === stor) {
@@ -165,9 +167,11 @@ document.getElementById('pickGroup').addEventListener('click', pickedGrTab);
 function pickedGrTab(){
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     let activeTab = tabs[0].id;
-    let pickedTabGroup = JSON.parse(sessionStorage.getItem('group-'+activeTab));
-    document.getElementById('pickedGR').value = +pickedTabGroup;
-    document.getElementById('pickedGR').innerHTML = +pickedTabGroup;
+    // let pickedTabGroup = JSON.parse(sessionStorage.getItem('group-'+activeTab));
+    let pickedTabGroup = sessionStorage.getItem('group-'+activeTab);
+    console.log(pickedTabGroup);
+    document.getElementById('pickedGR').value = pickedTabGroup;
+    document.getElementById('pickedGR').innerHTML = pickedTabGroup;
     if (pickedTabGroup == null) {
       console.log('Incorrect tab selected');
       document.getElementById('pickedGR').value = '';
@@ -183,10 +187,21 @@ function assignTab(){
     let group = document.getElementById('pickedGR').value;
     browser.tabs.sendMessage(+activeTab, 'group'+group);
     console.log('Assigning tab: '+activeTab+' to group: '+group);
-    document.getElementById('assignedGR').innerHTML = 'Assigned to: '+group;
+    document.getElementById('groupStatus').innerHTML = 'Assigned to: '+group;
   });
 }
 
+document.getElementById('removeGr').addEventListener('click', removeGrTab);
+function removeGrTab(){
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    let activeTab = tabs[0].id;
+    // let group = document.getElementById('pickedGR').value;
+    let removeGroup = sessionStorage.getItem('group-'+activeTab);
+    browser.tabs.sendMessage(+activeTab, 'remgr'+removeGroup);
+    console.log('Removeing tab: '+activeTab+' from group: '+removeGroup);
+    document.getElementById('groupStatus').innerHTML = 'Removed from group: '+removeGroup;
+  });
+}
 // Paste filter and open URL function:
 
 let Account = document.getElementById('search');
@@ -237,7 +252,7 @@ function account() {
       document.getElementById('selected').value = '';
       document.getElementById('selected').innerHTML = '';
       document.getElementById('linkablesAction').innerHTML = '';
-      document.getElementById('assignedGR').innerHTML = '';
+      document.getElementById('groupStatus').innerHTML = '';
     } else {
       document.getElementById('output').innerHTML = 'Found: '+accnumbers.length + ' accounts' + ' in batch ' + accnumbers[0];
       document.getElementById('search').value = '';
@@ -248,7 +263,7 @@ function account() {
       document.getElementById('selected').value = '';
       document.getElementById('selected').innerHTML = '';
       document.getElementById('linkablesAction').innerHTML = '';
-      document.getElementById('assignedGR').innerHTML = '';
+      document.getElementById('groupStatus').innerHTML = '';
     }
     console.log('Correct');
     return true;

@@ -38,10 +38,6 @@ $(document).ready(function(){
     let sendInfo2 = ''+account+','+groupID+','+custID+'';
     browser.runtime.sendMessage(sendInfo2);
   }
-
-  let linkUrl = ""+accno+""+custID+""+group+"";
-  let removeUrl = ""+accno+""+custID+""+group+"";
-
   browser.runtime.onMessage.addListener(function(getAction) {
     let str = getAction;
     let activate = str.includes("activate");
@@ -51,60 +47,66 @@ $(document).ready(function(){
     let groupAss = str.includes("group");
     let linkacc = str.includes("link");
     let removeacc = str.includes("remove");
+    let removeGr = str.includes("remgr");
 
     if (activate) {
       console.log('Activating After Suspension');
-      let link = 'https://duckduckgo.com/';
+      let link = '';
       fetchAction(link);
     }
     if (suspendDo) {
       let suspendInfo = str;
-      let strippedSusp = suspendInfo.replace('suspend', '');
+      let strippedSusp = suspendInfo.replace('suspend','');
       console.log('Suspending with reason: '+strippedSusp);
-      let link = 'https://duckduckgo.com/?q='+strippedSusp+'&t=canonical&atb=v223-1&ia=web';
+      let link = '';
       fetchAction(link);
     }
     if (dupClose) {
       let accnums = str.replace(/[^0-9]+/g,"");
       console.log('Closing account with DUP: '+accnums);
-      let link = 'https://duckduckgo.com/?q='+accnums+'&t=canonical&atb=v223-1&ia=web';
+      let link = '';
       fetchAction(link);
     }
     if (reasonClose) {
       let closeStrip = str.replace('reasoncl','');
       console.log('Closing account with reason: '+closeStrip);
-      let link = 'https://duckduckgo.com/?q='+closeStrip+'&t=canonical&atb=v223-1&ia=web';
+      let link = '';
       fetchAction(link);
     }
     if (groupAss) {
-      let groupnums = str.replace(/[^0-9]+/g,"");
-      console.log('Assigning to group: '+groupnums);
-      let link = 'https://duckduckgo.com/?q='+groupnums+'&t=canonical&atb=v223-1&ia=web';
+      let groupAssInfo = str.replace('group','');
+      console.log('Assigning to group: '+groupAssInfo);
+      let link = '';
+      fetchAction(link);
+    }
+    if (removeGr) {
+      let groupRemInfo = str.replace('remgr','');
+      console.log('Removing from group: '+groupRemInfo);
+      let link = '';
       fetchAction(link);
     }
     if (linkacc) {
       let linkaccno = str.replace(/[^0-9]+/g,"");
       console.log('Linking account: '+linkaccno);
-      let link = 'https://duckduckgo.com/?q='+linkaccno+'&t=canonical&atb=v223-1&ia=web';
+      let link = '';
       fetchAction(link);
     }
     if (removeacc) {
       let removeaccno = str.replace(/[^0-9]+/g,"");
       console.log('Unlinking account: '+removeaccno);
-      let link = 'https://duckduckgo.com/?q='+removeaccno+'&t=canonical&atb=v223-1&ia=web';
+      let link = '';
       fetchAction(link);
     }
-  });
+    });
 
-//   function test:
-async function fetchAction(link) {
-  const response = await fetch(link);
-  // waits until the request completes...
-  // console.log(response);
-  console.log('fetch completed');
-  // location.reload();
-}
-});
+    async function fetchAction(link) {
+      const response = await fetch(link);
+      // waits until the request completes...
+      // console.log(response);
+      console.log('fetch completed');
+      location.reload();
+    }
+  });
 
 
 //   async function fetchAction(action) {
