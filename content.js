@@ -1,27 +1,40 @@
 
-console.log('Content script loaded!');
+console.log('QuickLinks 1.6 Loaded!');
 
 $(document).ready(function(){
 
-  // for live version:
-  match = "Potential match";
-  let potential = $('td:contains('+match+')').html();
-  find = "Account No";
-  // let acc = $('td:contains('+find+')').closest('td').text();
+  // Live version:
 
-  // Find account number ----------------
-  let acc = $('td:contains('+find+')').find("td:eq(3)").text();
+  let potential = $('td:contains("Potential match")').html();
+
+  // ---------------- Find account number ----------------
+
+  let acc = $('td:contains("Account No:")').find("td:eq(3)").text();
   // Trim whitespaces
   let accno = acc.trim();
 
-  // Find group ---------------
-  let g = $('td:contains('+find+')').find("td:eq(7)").text();
-  // Remove all characters except numbers
-  let gr = g.replace(/[^0-9]+/g,"");
-  let group = gr.slice(0, -1);
+  // ---------------- Find group ---------------
 
-  // find CustID ----------------
-  let custID = $('td:contains('+find+')').closest('tr').find("input").val();
+  let g = $('td:contains("Group:")').find("td:eq(7)").text();
+  let group_start = g.indexOf(':') + 1;
+  let group_end = g.indexOf('(',group_start);
+  let group_get = g.substring(group_start,group_end);
+  let group = group_get.trim();
+//  let grr = group_get.replace(/[^0-9]+/g,"");
+//  let group = grr.trim();
+
+
+  // ---------------- find CustID ----------------
+
+  let c = $('td:contains("Username:")').find("td:eq(1)").html();
+  let cust_start = c.indexOf('"') + 1;
+  let cust_end = c.indexOf('"',cust_start);
+  let cust_get = c.substring(cust_start,cust_end);
+  let cust = cust_get.replace(/[^0-9]+/g,"");
+  let custID = cust;
+
+  // ---------------- To find actual username, not custid: ----------------
+  // let user = $('td:contains("Username")').find("td:eq(1)").text();
 
   console.log('Account No: '+accno);
   console.log('Group: '+group);
@@ -35,7 +48,7 @@ $(document).ready(function(){
     console.log(pot);
     browser.runtime.sendMessage(sendInfo);
   } else {
-    let sendInfo2 = ''+account+','+groupID+','+custID+'';
+    let sendInfo2 = ''+accno+','+group+','+custID+'';
     browser.runtime.sendMessage(sendInfo2);
   }
   browser.runtime.onMessage.addListener(function(getAction) {
