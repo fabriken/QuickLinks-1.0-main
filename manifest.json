@@ -2,7 +2,7 @@
 
   "description": "Link accounts",
   "manifest_version": 2,
-  "name": "QuickLinks",
+  "name": "QLink",
   "version": "1.6",
   "browser_specific_settings": {
     "gecko": {
@@ -10,8 +10,8 @@
     }
   },
   "sidebar_action": {
-    "default_title": "QuickLink",
-    "default_panel": "QuickLinks.html",
+    "default_title": "QLink",
+    "default_panel": "QLink.html",
     "default_icon": "icons/Link.svg",
     "browser_style": true,
     "open_at_install":true
@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.its.temple.edu/*"],
-      "js": ["jquery-3.5.1.js", "content.js"]
+      "js": ["jquery-3.5.1.js", "Content.js"]
     }
   ],
   "permissions": [
