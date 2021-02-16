@@ -1,7 +1,6 @@
-# QuickLinks-1.6
+# QuickLinks-1.7
 Beta!
 
 Activate, Suspend, Close and assign to Group.
-
-Getting very close to full functionality!
-Need to sort out real links and then find a way to keep contact selections.
+- Link address to assign and delete group need to be added.
+- Implement sort tab by group and date
