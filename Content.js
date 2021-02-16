@@ -1,63 +1,58 @@
-console.log('QLink 1.6 Loaded!');
 
-$(document).ready(function(){
+function docReady(fn) {
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+        setTimeout(fn, 0);
+    } else {
+        document.addEventListener("DOMContentLoaded", fn);
+    }
+}
 
-  // Live version:
+docReady(function() {
 
-  let potential = $('td:contains("Potential match")').html();
+  console.log('------QLink 1.7------');
+  let tb = document.getElementsByTagName("tbody");
+
+  // ---------------- Check for Potential match ----------------
+
+  let potential = tb[1].childNodes[8].lastElementChild.firstElementChild;
 
   // ---------------- Find account number ----------------
 
-  let acc = $('td:contains("Account No:")').find("td:eq(3)").text();
-  // Trim whitespaces
-  let accno = acc.trim();
+  let accno = tb[1].childNodes[4].lastElementChild.textContent.trim();
 
   // ---------------- Find group ---------------
 
- // let g = $('td:contains("Group:")').find("td:eq(7)").text();
- // let group_start = g.indexOf(':') + 1;
-  //let group_end = g.indexOf('(',group_start);
- // let group_get = g.substring(group_start,group_end);
-//  let group = group_get.trim();
-
- // let groo = $('a[name ="Group"]').find('ext_cust_id=').val();
-
-  var g = $('td:contains("Account No:")').find("td:eq(7)").text();
-  // Remove all characters except numbers
-  var gr = g.replace(/[^0-9]+/g,"");
-  var group = gr.slice(0, -1);
-
+  let g = tb[1].childNodes[8].innerHTML;
+  let group_start = g.indexOf('Group:') + 7;
+  let group_end = g.indexOf('(',group_start);
+  let group_get = g.substring(group_start,group_end);
+  let group = group_get.trim();
 
   // ---------------- find CustID ----------------
 
-  let c = $('td:contains("Username:")').find("td:eq(1)").html();
-  let cust_start = c.indexOf('"') + 1;
+  let c = tb[1].childNodes[2].childNodes[2].innerHTML;
+  let cust_start = c.indexOf('CustId') + 1;
   let cust_end = c.indexOf('"',cust_start);
   let cust_get = c.substring(cust_start,cust_end);
   let cust = cust_get.replace(/[^0-9]+/g,"");
   let custID = cust;
 
   // ---------------- To find actual username, not custid: ----------------
+
+  let username = tb[1].childNodes[2].childNodes[2].textContent.trim();
+
+  // ---------------- Find Current Status ---------------- 
   
-  let user = $('td:contains("Username")').find("td:eq(1)").text();
-  let username = user.trim();
+  let currstat = tb[0].childNodes[10].defaultValue;
 
-// ---------------- Find Current Status ---------------- 
-
-  let sel = $('tbody:contains("Customer Attributes")').html();
-
-//  let currstat = $('tbody:contains("Customer Attributes")').find('option[selected]').val();
-
-  let currstat = $(sel).find('option[selected]').val();
-
-  let ContactOK = $('select[name ="ContactOK"]').find('option[selected]').val();
-  let PtnrContactOK = $('select[name ="PtnrContactOK"]').find('option[selected]').val();
-  let ContactOffers = $('select[name ="ContactOffers"]').find('option[selected]').val();
-  let ContactNewsltr = $('select[name ="ContactNewsltr"]').find('option[selected]').val();
-  let GoodEmail = $('select[name ="GoodEmail"]').find('option[selected]').val();
-  let GoodMobile = $('select[name ="GoodMobile"]').find('option[selected]').val();
-  let GoodAddr = $('select[name ="GoodAddr"]').find('option[selected]').val();
-  let contact = $('input[name ="contact_how"]').val();
+  let ContactOK = tb[7].childNodes[8].childNodes[3].childNodes[3].value;
+  let PtnrContactOK = tb[7].childNodes[8].childNodes[3].childNodes[7].value;
+  let ContactOffers = tb[7].childNodes[10].childNodes[3].childNodes[3].value;
+  let ContactNewsltr = tb[7].childNodes[10].childNodes[3].childNodes[7].value;
+  let GoodEmail = tb[9].childNodes[0].lastElementChild.lastElementChild.value;
+  let GoodMobile = tb[9].childNodes[2].lastElementChild.lastElementChild.value;
+  let GoodAddr = tb[9].childNodes[4].lastElementChild.lastElementChild.value;
+  let contact = tb[8].lastElementChild.value;
 
   console.log('Username: '+username);
   console.log('Account No: '+accno);
@@ -72,14 +67,12 @@ $(document).ready(function(){
   console.log('GoodMobile: '+GoodMobile);
   console.log('GoodAddr: '+GoodAddr);
   console.log('Contact: '+contact);
- // console.log('groo: '+groo);
 
   let pot = 'pot';
   let sendInfo = ''+accno+','+group+','+custID+','+pot+'';
 
-  if (potential) {
+  if (potential !== null) {
     console.log('Found Potential Match!');
-    console.log(pot);
     browser.runtime.sendMessage(sendInfo);
   } else {
     let sendInfo2 = ''+accno+','+group+','+custID+'';
