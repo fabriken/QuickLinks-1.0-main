@@ -16,11 +16,17 @@ docReady(function() {
 
   // ---------------- Check for Potential match ----------------
 
-  let potential = tb[1].childNodes[8].lastElementChild.firstElementChild.color;
+  let poten = tb[1].childNodes[8].lastElementChild.innerText;
+  let potential = poten.includes("Potential");
 
-  // ---------------- Find account number ----------------
+
+// ---------------- Find account number ----------------
 
   let accno = tb[1].childNodes[4].lastElementChild.textContent.trim();
+
+  // ---------------- Find Date ---------------- 
+
+  let regdate = tb[2].childNodes[2].lastElementChild.textContent;
 
   // ---------------- Find group ---------------
 
@@ -47,42 +53,42 @@ docReady(function() {
   
   let currstat = tb[0].childNodes[10].defaultValue;
 
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var a = tb[7].childNodes[8].childNodes[3].childNodes[3].value;
   } else {
     var a = tb[8].childNodes[8].childNodes[3].childNodes[3].value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var b = tb[7].childNodes[8].childNodes[3].childNodes[7].value;
   } else {
     var b = tb[8].childNodes[8].childNodes[3].childNodes[7].value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var c = tb[7].childNodes[10].childNodes[3].childNodes[3].value;
   } else {
     var c = tb[8].childNodes[10].childNodes[3].childNodes[3].value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var d = tb[7].childNodes[10].childNodes[3].childNodes[7].value;
   } else {
     var d = tb[8].childNodes[10].childNodes[3].childNodes[7].value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var e = tb[9].childNodes[0].lastElementChild.lastElementChild.value;
   } else {
     var e = tb[10].childNodes[0].lastElementChild.lastElementChild.value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var f = tb[9].childNodes[2].lastElementChild.lastElementChild.value;
   } else {
     var f = tb[10].childNodes[2].lastElementChild.lastElementChild.value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var g = tb[9].childNodes[4].lastElementChild.lastElementChild.value;
   } else {
     var g = tb[10].childNodes[4].lastElementChild.lastElementChild.value;
   }
-  if (tb.length == 37) {
+  if (tb.length <= 37) {
     var h = tb[8].lastElementChild.value;
   } else {
     var h = tb[9].lastElementChild.value;
@@ -110,12 +116,14 @@ docReady(function() {
   console.log('GoodMobile: '+GoodMobile);
   console.log('GoodAddr: '+GoodAddr);
   console.log('Contact: '+contact);
+  console.log('Date: '+regdate);
+
 
   let pot = 'pot';
   let sendInfo = ''+accno+','+group+','+custID+','+pot+'';
 
 
-  if (potential === "red") {
+  if (potential === true) {
 
     console.log('Found Potential Match!');
 
