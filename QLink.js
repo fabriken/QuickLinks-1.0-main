@@ -221,7 +221,7 @@ function account() {
     // Filter out duplicates
     accnumbers = [...new Set(accnumbers)];
     console.log(accnumbers);
-    let test = new RegExp('^[\\s0-9 ,zZyY()]*$');
+    let test = new RegExp('^[\\s0-9 ,zZyYvV()]*$');
 
     if(!accno.match(test)){
       console.log('Incorrect pattern: '+accno);
