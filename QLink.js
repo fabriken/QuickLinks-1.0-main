@@ -1,16 +1,36 @@
-// QuickLinks 1.6
+// QuickLinks 1.7
 
 browser.runtime.onMessage.addListener(function(incoming, sender) {
   let fromWho = sender.tab.id;
   let message = incoming;
   let potential = message.includes('pot');
-  // let normal = message.includes('normal');
   const splitArr = message.split(',');
-  let group = splitArr[1];
   let acc = splitArr[0];
+  let group = splitArr[1];
+//console.log(group);
+//console.log(acc);
+//console.log(splitArr);
 
   sessionStorage.setItem(fromWho, acc);
   sessionStorage.setItem('group-'+fromWho, group);
+
+// Test to see if pushing all data to one array is useful for sorting per date later
+// // Get the existing data
+// var existing = sessionStorage.getItem('acs');
+
+// // If no existing data, create an array
+// // Otherwise, convert the sessionStorage string to an array
+// existing = existing ? existing.split(',') : [];
+
+// // Add new data to sessionStorage Array
+// existing.push(acc);
+
+// // Save back to localStorage
+// sessionStorage.setItem('acs', existing.toString());
+
+// console.log(existing);
+
+
 
   if (potential) {
     // let acc = splitArr[0];
