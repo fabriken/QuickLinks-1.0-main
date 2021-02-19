@@ -26,7 +26,8 @@ docReady(function() {
 
   // ---------------- Find Date ---------------- 
 
-  let regdate = tb[2].childNodes[2].lastElementChild.textContent;
+  let datestr = tb[2].childNodes[2].lastElementChild.textContent;
+  let regdate = datestr.slice(0, -9); 
 
   // ---------------- Find group ---------------
 
