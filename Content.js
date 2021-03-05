@@ -9,179 +9,161 @@ function docReady(fn) {
 
 docReady(function() {
 
-  console.log('------QLink 1.7------');
-  let ta = document.getElementsByTagName("tbody");
- // let tb = document.getElementsByTagName("td");
-  
-  let tb = document.getElementsByTagName("body");
-  let tg = tb[0].innerText;
-  let th = tb[0].innerHTML;
-
-  console.log(tb);
-//  console.log(tg);
-
-  // ---------------- Check for Potential match ----------------
-
-  let poten = ta[1].childNodes[8].lastElementChild.innerText;
-  let potential = poten.includes("Potential");
-  let potcheck = potential;
+   console.log('------QLink 1.7------');
  
-//   let po = tg;
-//   let po_start = po.indexOf('Potential match');
-//   let po_end = po.indexOf('"',po_start);
-//   let po_get = po.substring(po_start,po_end);
-//   let potential = po_get.trim();
+// let ta = document.getElementsByTagName("tbody");
+// let tb = document.getElementsByTagName("td");
+  
+   let tb = document.getElementsByTagName("body");
+   let iT = tb[0].innerText;
+   let iH = tb[0].innerHTML;
 
-//console.log(potential);
+//  console.log(tb);
+//  console.log(iH);
 
-// ---------------- Find username ----------------
+// ---------------- Check For Potential Match ----------------
 
-   let us = tg;
-   let us_start = us.indexOf('Username:') + 12;
-   let us_end = us.indexOf('\n',us_start);
-   let us_get = us.substring(us_start,us_end);
+   let po_start = iT.indexOf('Potential match');
+   let po_end = iT.indexOf('"',po_start);
+   let po_get = iT.substring(po_start,po_end);
+   let potential = po_get.trim();
+
+// console.log(potential);
+
+// ---------------- Find Username ----------------
+
+   let us_start = iT.indexOf('Username:') + 12;
+   let us_end = iT.indexOf('\n',us_start);
+   let us_get = iT.substring(us_start,us_end);
    let username = us_get.trim();
 
-// // ---------------- Find account number ----------------
+// ---------------- Find Account Number ----------------
 
-//   let accno = tb[1].childNodes[4].lastElementChild.textContent.trim();
-
-   let ac = tg;
-   let ac_start = ac.indexOf('Account No:') + 12;
-   let ac_end = ac.indexOf('\n',ac_start);
-   let ac_get = ac.substring(ac_start,ac_end);
+   let ac_start = iT.indexOf('Account No:') + 12;
+   let ac_end = iT.indexOf('\n',ac_start);
+   let ac_get = iT.substring(ac_start,ac_end);
    let accno = ac_get.trim();
 
-//   // ---------------- Find Date ---------------- 
+// ---------------- Find Group ---------------
 
-//   let datestr = tb[2].childNodes[2].lastElementChild.textContent;
-//   let regdate = datestr.slice(0, -9); 
+  if (potential) {
+    var b = iT.indexOf('URN CustomerMatching') + 48;
+  } else {
+    var b = iT.indexOf('URN CustomerMatching') + 30;
+  }
+   let group_start = b;
+   let group_end = iT.indexOf('(',group_start);
+   let group_get = iT.substring(group_start,group_end);
+   let ExtCustGroup = group_get.trim();
 
-//   // ---------------- Find group ---------------
+// ---------------- Find Group Count ---------------
 
-  let gr = ta[1].childNodes[8].innerHTML;
-  let group_start = gr.indexOf('Group:') + 7;
-  let group_end = gr.indexOf('(',group_start);
-  let group_get = gr.substring(group_start,group_end);
-  let group = group_get.trim();
+   let groupC_start = iT.indexOf('Linked Accounts:') + 16;
+   let groupC_end = iT.indexOf(')',groupC_start);
+   let groupC_get = iT.substring(groupC_start,groupC_end);
+   let ExtCustGroupCount = groupC_get.trim();
 
-//   let gr = ta[1].childNodes[8].innerHTML;
+// ---------------- find CustID ----------------
 
-//  if (potcheck === true) {
-//    var b = gr.indexOf('URN CustomerMatching') + 50;
-//  } else {
-//    var b = gr.indexOf('URN CustomerMatching') + 30;
-//  }
-
-//   let gr = tg;
-//   let group_start = b;
-//   let group_end = gr.indexOf('(',group_start);
-//   let group_get = gr.substring(group_start,group_end);
- //  let group = group_get.trim();
-
-
-//   // ---------------- find CustID ----------------
-
-//   let cu = tb[1].childNodes[2].childNodes[2].innerHTML;
-   let cu = th;
-   let cust_start = cu.indexOf('CustId=') + 7;
-   let cust_end = cu.indexOf('"',cust_start);
-   let cust_get = cu.substring(cust_start,cust_end);
+   let cust_start = iH.indexOf('CustId=') + 7;
+   let cust_end = iH.indexOf('&',cust_start);
+   let cust_get = iH.substring(cust_start,cust_end);
    let cust = cust_get.replace(/[^0-9]+/g,"");
-   let custID = cust.slice(0, -2);
+//   let custID = cust.slice(0, -2);
+   let custID = cust;
 
-//   // ---------------- To find actual username, not custid: ----------------
-
-//   let username = tb[1].childNodes[2].childNodes[2].textContent.trim();
-
-//   // ---------------- Find Current Status ---------------- 
+// ---------------- Find Current Status ---------------- 
   
-//   let currstat = tb[0].childNodes[10].defaultValue;
-
-   let cur = th;
-   let cur_start = cur.indexOf('CurStatus') +18;
-   let cur_end = cur.indexOf('"',cur_start);
-   let cur_get = cur.substring(cur_start,cur_end);
+   let cur_start = iH.indexOf('CurStatus') +18;
+   let cur_end = iH.indexOf('"',cur_start);
+   let cur_get = iH.substring(cur_start,cur_end);
    let currstat = cur_get;
 
 // ---------------- Find ContactOK---------------- 
 
-   let cok = th;
-   let cok_start = cok.indexOf('ContactOK') +37;
-   let cok_end = cok.indexOf(',',cok_start);
-   let cok_get = cok.substring(cok_start,cok_end);
+   let cok_start = iH.indexOf('ContactOK') +37;
+   let cok_end = iH.indexOf(',',cok_start);
+   let cok_get = iH.substring(cok_start,cok_end);
    let ContactOK = cok_get.slice(0, -1);
 
 // ---------------- Find PtnrContactOK ----------------
 
-   let ptr = th;
-   let ptr_start = ptr.indexOf('PtnrContactOK') +41;
-   let ptr_end = ptr.indexOf(',',ptr_start);
-   let ptr_get = ptr.substring(ptr_start,ptr_end);
+   let ptr_start = iH.indexOf('PtnrContactOK') +41;
+   let ptr_end = iH.indexOf(',',ptr_start);
+   let ptr_get = iH.substring(ptr_start,ptr_end);
    let PtnrContactOK = ptr_get.slice(0, -1);
 
 // ---------------- Find ContactOffers ----------------
 
-   let coff = th;
-   let coff_start = coff.indexOf('ContactOffers') +41;
-   let coff_end = coff.indexOf(',',coff_start);
-   let coff_get = coff.substring(coff_start,coff_end);
+   let coff_start = iH.indexOf('ContactOffers') +41;
+   let coff_end = iH.indexOf(',',coff_start);
+   let coff_get = iH.substring(coff_start,coff_end);
    let ContactOffers = coff_get.slice(0, -1);
 
 // ---------------- Find ContactNewsltr ---------------- 
 
-   let cnew = th;
-   let cnew_start = cnew.indexOf('ContactNewsltr') +42;
-   let cnew_end = cnew.indexOf(',',cnew_start);
-   let cnew_get = cnew.substring(cnew_start,cnew_end);
+   let cnew_start = iH.indexOf('ContactNewsltr') +42;
+   let cnew_end = iH.indexOf(',',cnew_start);
+   let cnew_get = iH.substring(cnew_start,cnew_end);
    let ContactNewsltr = cnew_get.slice(0, -1);
 
 // ---------------- Find GoodEmail ----------------
 
-   let ge = th;
-   let ge_start = ge.indexOf('GoodEmail') +52;
-   let ge_end = ge.indexOf(',',ge_start);
-   let ge_get = ge.substring(ge_start,ge_end);
+   let ge_start = iH.indexOf('GoodEmail') +52;
+   let ge_end = iH.indexOf(',',ge_start);
+   let ge_get = iH.substring(ge_start,ge_end);
    let GoodEmail = ge_get.slice(0, -1);
 
 // ---------------- Find GoodMobile ----------------
 
-   let gm = th;
-   let gm_start = gm.indexOf('GoodMobile') +53;
-   let gm_end = gm.indexOf(',',gm_start);
-   let gm_get = gm.substring(gm_start,gm_end);
+   let gm_start = iH.indexOf('GoodMobile') +53;
+   let gm_end = iH.indexOf(',',gm_start);
+   let gm_get = iH.substring(gm_start,gm_end);
    let GoodMobile = gm_get.slice(0, -1);
 
 // ---------------- Find GoodAddr ----------------
 
-   let ga = th;
-   let ga_start = ga.indexOf('GoodAddr') +51;
-   let ga_end = ga.indexOf(',',ga_start);
-   let ga_get = ga.substring(ga_start,ga_end);
+   let ga_start = iH.indexOf('GoodAddr') +51;
+   let ga_end = iH.indexOf(',',ga_start);
+   let ga_get = iH.substring(ga_start,ga_end);
    let GoodAddr = ga_get.slice(0, -1);
 
-// ---------------- Find Contact ----------------
+// ---------------- Find Contact How ----------------
 
-   let co = th;
-   let co_start = co.indexOf('<input type="hidden" name="contact_how"') +47;
-   let co_end = co.indexOf('>',co_start);
-   let co_get = co.substring(co_start,co_end);
+   let co_start = iH.indexOf('<input type="hidden" name="contact_how"') +47;
+   let co_end = iH.indexOf('>',co_start);
+   let co_get = iH.substring(co_start,co_end);
    let contact_how = co_get.slice(0, -1);
 
 // ---------------- Find Date ---------------- 
 
-   let da = tg;
-   let da_start = da.indexOf('Registered at:') +16;
-   let da_end = da.indexOf('\nR',da_start);
-   let da_get = da.substring(da_start,da_end);
+   let da_start = iT.indexOf('Registered at:') +16;
+   let da_end = iT.indexOf('\nR',da_start);
+   let da_get = iT.substring(da_start,da_end);
    let regdate = da_get;
+
+// ---------------- Get OBJ_CATS ---------------- 
+
+const cats = document.querySelectorAll("input[name='OBJ_CATS']:checked");
+
+var catIn = [];
+
+for (var i = 0, l = cats.length; i < l; ++i) {
+    if (cats[i].value.length) {
+        catIn.push('&OBJ_CATS='+cats[i].value);
+    }
+}
+
+var OBJ_CATS = catIn.join("");
 
 // ---------------- Log All ----------------
 
    console.log('Username: '+username);
-   console.log('Account No: '+accno);
-   console.log('Group: '+group);
    console.log('CustID: '+custID);
+   console.log('Account No: '+accno);
+   console.log('Group: '+ExtCustGroup);
+   console.log('Date: '+regdate);
+   console.log('ExtCustGroupCount: '+ExtCustGroupCount);
    console.log('Current Status: '+currstat);
    console.log('ContactOK: '+ContactOK);
    console.log('PtnrContactOK: '+PtnrContactOK);
@@ -190,8 +172,8 @@ docReady(function() {
    console.log('GoodEmail: '+GoodEmail);
    console.log('GoodMobile: '+GoodMobile);
    console.log('GoodAddr: '+GoodAddr);
-   console.log('Contact: '+contact_how);
-   console.log('Date: '+regdate);
+   console.log('Contact How: '+contact_how);
+   console.log('OBJ_CATS: '+OBJ_CATS);
 
 
   let pot = 'pot';
