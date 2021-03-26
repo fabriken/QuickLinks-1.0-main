@@ -22,118 +22,27 @@ docReady(function() {
 //  console.log(iH);
 
 // ---------------- Check For Potential Match ----------------
-
-   let po_start = iT.indexOf('Potential match');
-   let po_end = iT.indexOf('"',po_start);
-   let po_get = iT.substring(po_start,po_end);
-   let potential = po_get.trim();
-
-// console.log(potential);
-
-// ---------------- Find Username ----------------
-
-   let us_start = iT.indexOf('Username:') + 12;
-   let us_end = iT.indexOf('\n',us_start);
-   let us_get = iT.substring(us_start,us_end);
-   let username = us_get.trim();
-
-// ---------------- Find Account Number ----------------
-
-   let ac_start = iT.indexOf('Account No:') + 12;
-   let ac_end = iT.indexOf('\n',ac_start);
-   let ac_get = iT.substring(ac_start,ac_end);
-   let accno = ac_get.trim();
-
-// ---------------- Find Group ---------------
-
-  if (potential) {
-    var b = iT.indexOf('URN CustomerMatching') + 48;
-  } else {
-    var b = iT.indexOf('URN CustomerMatching') + 30;
-  }
-   let group_start = b;
-   let group_end = iT.indexOf('(',group_start);
-   let group_get = iT.substring(group_start,group_end);
-   let ExtCustGroup = group_get.trim();
-
-// ---------------- Find Group Count ---------------
-
-   let groupC_start = iT.indexOf('Linked Accounts:') + 16;
-   let groupC_end = iT.indexOf(')',groupC_start);
-   let groupC_get = iT.substring(groupC_start,groupC_end);
-   let ExtCustGroupCount = groupC_get.trim();
-
-// ---------------- find CustID ----------------
-
-   let cust_start = iH.indexOf('CustId=') + 7;
-   let cust_end = iH.indexOf('&',cust_start);
-   let cust_get = iH.substring(cust_start,cust_end);
-   let cust = cust_get.replace(/[^0-9]+/g,"");
-//   let custID = cust.slice(0, -2);
-   let custID = cust;
+   let potfind = "//b[contains(text(),'Potential match')]";
+   let potential = document.evaluate(potfind, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+//   console.log(potential);
 
 // ---------------- Find Current Status ---------------- 
-  
-   let cur_start = iH.indexOf('CurStatus') +18;
-   let cur_end = iH.indexOf('"',cur_start);
-   let cur_get = iH.substring(cur_start,cur_end);
-   let currstat = cur_get;
 
-// ---------------- Find ContactOK---------------- 
-
-   let cok_start = iH.indexOf('ContactOK') +37;
-   let cok_end = iH.indexOf(',',cok_start);
-   let cok_get = iH.substring(cok_start,cok_end);
-   let ContactOK = cok_get.slice(0, -1);
-
-// ---------------- Find PtnrContactOK ----------------
-
-   let ptr_start = iH.indexOf('PtnrContactOK') +41;
-   let ptr_end = iH.indexOf(',',ptr_start);
-   let ptr_get = iH.substring(ptr_start,ptr_end);
-   let PtnrContactOK = ptr_get.slice(0, -1);
-
-// ---------------- Find ContactOffers ----------------
-
-   let coff_start = iH.indexOf('ContactOffers') +41;
-   let coff_end = iH.indexOf(',',coff_start);
-   let coff_get = iH.substring(coff_start,coff_end);
-   let ContactOffers = coff_get.slice(0, -1);
-
-// ---------------- Find ContactNewsltr ---------------- 
-
-   let cnew_start = iH.indexOf('ContactNewsltr') +42;
-   let cnew_end = iH.indexOf(',',cnew_start);
-   let cnew_get = iH.substring(cnew_start,cnew_end);
-   let ContactNewsltr = cnew_get.slice(0, -1);
-
-// ---------------- Find GoodEmail ----------------
-
-   let ge_start = iH.indexOf('GoodEmail') +52;
-   let ge_end = iH.indexOf(',',ge_start);
-   let ge_get = iH.substring(ge_start,ge_end);
-   let GoodEmail = ge_get.slice(0, -1);
-
-// ---------------- Find GoodMobile ----------------
-
-   let gm_start = iH.indexOf('GoodMobile') +53;
-   let gm_end = iH.indexOf(',',gm_start);
-   let gm_get = iH.substring(gm_start,gm_end);
-   let GoodMobile = gm_get.slice(0, -1);
-
-// ---------------- Find GoodAddr ----------------
-
-   let ga_start = iH.indexOf('GoodAddr') +51;
-   let ga_end = iH.indexOf(',',ga_start);
-   let ga_get = iH.substring(ga_start,ga_end);
-   let GoodAddr = ga_get.slice(0, -1);
-
-// ---------------- Find Contact How ----------------
-
-   let co_start = iH.indexOf('<input type="hidden" name="contact_how"') +47;
-   let co_end = iH.indexOf('>',co_start);
-   let co_get = iH.substring(co_start,co_end);
-   let contact_how = co_get.slice(0, -1);
+   let selects = document.querySelectorAll('select[name="Status"], [name="ContactOK"], [name="PtnrContactOK"], [name="ContactOffers"], [name="ContactNewsltr"], [name="GoodEmail"], [name="GoodMobile"], [name="GoodAddr"]');
+   let Username = document.querySelector('input[name="Username"]').value;
+   let CustId = document.querySelector('input[name="CustId"]').value;
+   let AcctNo = document.querySelector('input[name="AcctNo"]').value;
+   let ExtCustGroup = document.querySelector('input[name="ExtCustGroup"]').value;
+   let ExtCustGroupCount = document.querySelector('input[name="ExtCustGroupCount"]').value;
+   let contact_how = document.querySelector('input[name="contact_how"]').value;
+   let CurStatus = selects[0].value;
+   let ContactOK = selects[1].value;
+   let PtnrContactOK = selects[2].value;
+   let ContactOffers = selects[3].value;
+   let ContactNewsltr = selects[4].value;
+   let GoodEmail = selects[5].value;
+   let GoodMobile = selects[6].value;
+   let GoodAddr = selects[7].value;
 
 // ---------------- Find Date ---------------- 
 
@@ -144,17 +53,30 @@ docReady(function() {
 
 // ---------------- Get OBJ_CATS ---------------- 
 
-const cats = document.querySelectorAll("input[name='OBJ_CATS']:checked");
+   const cats = document.querySelectorAll("input[name='OBJ_CATS']:checked");
 
-var catIn = [];
+   var catIn = [];
 
-for (var i = 0, l = cats.length; i < l; ++i) {
-    if (cats[i].value.length) {
-        catIn.push('&OBJ_CATS='+cats[i].value);
-    }
-}
+   for (var i = 0, l = cats.length; i < l; ++i) {
+       if (cats[i].value.length) {
+           catIn.push('&OBJ_CATS='+cats[i].value);
+       }
+   }
 
-var OBJ_CATS = catIn.join("");
+   var OBJ_CATS = catIn.join("");
+
+// ---------------- Check balance on closed accounts ----------------
+
+   let ba_start = iT.indexOf('Account balance:') +19;
+   let ba_end = iT.indexOf('(',ba_start);
+   let ba_get = iT.substring(ba_start,ba_end);
+   let balance = ba_get.trim();
+
+  if (CurStatus == "C" && balance >0) {
+   console.log('Account is closed, but has balance. Please review.');
+   alert('Account is closed, but has balance. Please review.');
+  }
+
 
 // ---------------- Log All ----------------
 
