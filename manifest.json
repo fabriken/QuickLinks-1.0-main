@@ -1,25 +1,25 @@
 {
 
-  "description": "Link accounts",
+  "description": "New Joins Manager",
   "manifest_version": 2,
-  "name": "QLink",
-  "version": "1.7",
+  "name": "Linker",
+  "version": "1.0",
   "browser_specific_settings": {
     "gecko": {
       "strict_min_version": "58.0a1"
     }
   },
   "sidebar_action": {
-    "default_title": "QLink",
-    "default_panel": "QLink.html",
+    "default_title": "Linker",
+    "default_panel": "Linker.html",
     "default_icon": "icons/Link.svg",
     "browser_style": true,
     "open_at_install":true
   },
   "content_scripts": [
     {
-      "matches": ["*://*.its.temple.edu/*"],
-      "js": ["Content.js"]
+      "matches": ["*://*.url.com.au/*"],
+      "js": ["LinkerScript.js"]
     }
   ],
   "permissions": [
