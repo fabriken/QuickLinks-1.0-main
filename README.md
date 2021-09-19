@@ -1,4 +1,4 @@
-# QuickLinks-1.7
+# QuickLinks-1.0
 
 Firefox sidebar extension to handle new joins.
 
